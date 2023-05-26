@@ -1,4 +1,5 @@
 ﻿using ADO.NET_PW_4.Context;
+using ADO.NET_PW_4.Models;
 
 var dataContext = new StoreDBContext();
 
@@ -20,6 +21,29 @@ PrintIEnumerableIEnumerable(dataContext.Cities.Where(c=> c.Country!.CountryName 
 
 PrintIEnumerableIEnumerable(dataContext.Cities.Where(c=> c.Country!.CountryName == "Germany").Select(c => c.Country!.Promotions));
 
+
+var customer = new Customer {
+    CityId = 1, DateOfBirth = DateTime.Now, FullName = "name of new customer", Email = "email@gmail.com",
+    Gender = "non binary"
+};
+
+dataContext.Customers.Add(customer);
+
+dataContext.SaveChanges();
+
+PrintIEnumerable(dataContext.Customers);
+
+customer.FullName = "Customer";
+
+dataContext.SaveChanges();
+
+PrintIEnumerable(dataContext.Customers);
+
+dataContext.Remove(customer);
+
+dataContext.SaveChanges();
+
+PrintIEnumerable(dataContext.Customers);
 
 static void PrintIEnumerable(IEnumerable<object> collection) {
     foreach (var el in collection) {
